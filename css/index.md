@@ -10,33 +10,39 @@
 
     选择器特性：
 	* 优先级
-
 	    `!important`
+	    
 	    Id选择器：`#example`
+	    
 	    类选择器：`.example`和属性选择器：`[type="radio"]`和伪类：`:hover`
+	    
 	    类型选择器：`h1`和伪元素：`::before`
 	* 继承
 
 	    使用 inherited property 的元素自动继承父级样式，例如`color`
+	    
 	    使用 non-inherited property 的元素使用初识值，例如`border`
 	* 层叠
 
 	    CSS 声明的来源：
+	    
 	        User-Agent  浏览器默认样式
+		
 	        User        网页的用户可以定制的样式
+		
 	        Author      网页开发者定义的样式
 	
 	    规则：先找出能匹配到元素的规则，然后按照重要性针对这些规则进行排序（以下优先级由低到高）
-            ```
-	        1. user-agent      normal
-	        2. user            normal
-	        3. author          normal
-	        4. animations
-	        5. author          !important
-	        6. user            !important
-	        7. user agent      !important
-	        8. transitions
-            ```
+	    ```
+		1. user-agent      normal
+		2. user            normal
+		3. author          normal
+		4. animations
+		5. author          !important
+		6. user            !important
+		7. user agent      !important
+		8. transitions
+	    ```
 
     层叠优先级的三因素：
     1. 重要性
@@ -46,7 +52,7 @@
         * `0 1 0 0` 选择器中存在 Id 选择器：`#example`
         * `0 0 1 0` 选择器中存在类选择器：`.example`或属性选择器：`[type="radio"]`或伪类：`:hover`
         * `0 0 0 1` 选择器中存在元素选择器：`h1`或伪元素：`::before`
-        * 通用选择器：`*`复合选择器：`+,>,~`否定伪类：`:not`不影响
+        * 通用选择器：`*`，复合选择器：`+,>,~`，否定伪类：`:not`不影响
     3. 源码顺序
         位置越后的规则优先级越高
 
@@ -87,21 +93,22 @@
 
 - [x] 屏幕适配
     * Flexible Grid based Layout：百分比布局
-
+    
         `<meta name="viewport" content="width=device-width, initial-scale=1" />`
     * Flexible Media
-
+    
         ```
         max-width: 100%;
         height: auto;
         ```
     * Media Queries
-
+    
         `@media (min-width: 500px) and (max-width:600px) {}`
 
 - [x] CSS3 新增选择器
 
     `[attr^=val],[attr$=val],[attr*-val]`
+    
     `nth-child(2n),nth-child(2n + 1)`
 
 - [x] CSS3中新增的属性
