@@ -4,8 +4,6 @@ JavaScript 的并发模型基于 event loop
 
 ![runtime](runtime.svg)
 
-![call stack](call_stack.gif)
-
 ## Stack
 
 函数调用形成栈
@@ -19,45 +17,77 @@ Call Stack：记录函数执行完成时应该交还控制权的位置
 * 当分配的调用栈空间被占满，会触发堆栈溢出
 
 ```javascript
-function greeting(){
-    sayHi()
+function baz() {
+    console.log('Hello from baz')
 }
-
-function sayHi(){
-    return "Hi!"
+function bar() {
+    baz()
 }
-
-greeting()
+function foo() {
+    bar()
+}
+foo()
 ```
 
 函数的执行顺序如下：
-1. 开始执行`greeting()`的调用
-2. 把`greeting()`加入调用栈
+1. 开始执行`foo()`的调用
+2. 把`foo()`加入调用栈
 ```
 Call stack list:
-- greeting
+- foo
 ```
-3. 执行`greeting()`内部的代码
-4. 开始执行`sayHi()`的调用
-5. 把`sayHi()`加入调用栈
-```
-Call stack list:
-- greeting
-- sayHi
-```
-6. 执行`sayHi()`内部的代码
-7. 当`sayHi()`执行完毕，返回`sayHi()`被调用的位置，继续执行`greeting()`剩余的代码
-8. 把`sayHi()`清出调用栈
+3. 执行`foo()`内部的代码
+4. 开始执行`bar()`的调用
+5. 把`bar()`加入调用栈
 ```
 Call stack list:
-- greeting
+- foo
+- bar
 ```
-9. 当`greeting()`内部的代码执行完毕，返回`greeting()`被调用的位置，继续执行剩余的代码
-10. 把`greeting()`清出调用栈
+6. 执行`bar()`内部的代码
+7. 开始执行`baz()`的调用
+8. 把`baz()`加入调用栈
+```
+Call stack list:
+- foo
+- bar
+- baz
+```
+9. 把`console.log('Hello from baz')`加入调用栈
+```
+Call stack list:
+- foo
+- bar
+- baz
+- console.log('Hello from baz')
+```
+10. 当`console.log('Hello from baz')`执行完毕，清出调用栈
+```
+Call stack list:
+- foo
+- bar
+- baz
+```
+11. 当`baz()`执行完毕，返回`baz()`被调用的位置，清出调用栈
+```
+Call stack list:
+- foo
+- bar
+```
+12. 继续执行`bar()`剩余的代码
+13. 当`bar()`执行完毕，返回`bar()`被调用的位置，清出调用栈
+```
+Call stack list:
+- foo
+```
+14. 继续执行`foo()`剩余的代码
+15. 当`foo()`执行完毕，清出调用栈
 ```
 Call stack list:
 EMPTY
 ```
+
+![call stack](call_stack.gif)
 
 ## Heap
 
