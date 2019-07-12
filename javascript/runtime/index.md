@@ -4,6 +4,8 @@ JavaScript 的并发模型基于 event loop
 
 ![runtime](runtime.svg)
 
+![call stack](call_stack.gif)
+
 ## Stack
 
 函数调用形成栈
@@ -56,8 +58,6 @@ Call stack list:
 Call stack list:
 EMPTY
 ```
-
-![call stack](call_stack.gif)
 
 ## Heap
 
