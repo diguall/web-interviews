@@ -157,3 +157,74 @@ function foo() {
 }
 foo();
 ```
+
+## Microtasks & Macrotasks
+
+```javascript
+console.log('script start');
+
+setTimeout(function() {
+  console.log('setTimeout');
+}, 0);
+
+Promise.resolve().then(function() {
+  console.log('promise1');
+}).then(function() {
+  console.log('promise2');
+});
+
+console.log('script end');
+```
+
+输出结果：`script start,script end,promise1,promise2,setTimeout`
+
+```html
+<div class="outer">
+  <div class="inner"></div>
+</div>
+```
+
+```javascript
+// Let's get hold of those elements
+var outer = document.querySelector('.outer');
+var inner = document.querySelector('.inner');
+
+// Let's listen for attribute changes on the
+// outer element
+new MutationObserver(function() {
+  console.log('mutate');
+}).observe(outer, {
+  attributes: true
+});
+
+// Here's a click listener…
+function onClick() {
+  console.log('click');
+
+  setTimeout(function() {
+    console.log('timeout');
+  }, 0);
+
+  Promise.resolve().then(function() {
+    console.log('promise');
+  });
+
+  outer.setAttribute('data-random', Math.random());
+}
+
+// …which we'll attach to both elements
+inner.addEventListener('click', onClick);
+outer.addEventListener('click', onClick);
+```
+
+如果在浏览器点击 `inner` 标签，输出结果：`click,promise,mutate,click,promise,mutate,timeout,timeout`，inner 的回调完成后，会检查 microtask 并执行，然后再执行 outer 的回调
+
+如果在 JavaScript 代码中执行 `inner.click()`，输出结果：`click,click,promise,mutate,promise,timeout,timeout`，由于 JavaScript 中触发的 click 事件会在当前 call stack 同步分发给inner、outer 的回调，所以等待所有的 JavaScript 代码执行完成后，才会再检查 microtask 并执行
+
+#### Microtasks
+
+  promise calbacks、mutation observer callbacks 的回调在 microtask queue 中被调度
+
+  1. 当前 call stack 为空时，会开始执行 microtasks
+  
+  2. 每次回调后，且没有正在执行中的 JavaScript 代码时，会开始执行 microtasks
