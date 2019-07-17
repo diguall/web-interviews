@@ -23,3 +23,4 @@ Web developer interview questions
 ## Webpack
 
 ## Algorithms
+[Algorithms 例题](algorithms/index.md)
