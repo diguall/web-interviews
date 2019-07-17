@@ -36,7 +36,6 @@ v12 更新（性能提升明显）：V8 引擎更新，TLS 更新，http 解析�
 5. check：`setImmediate()`的回调
 6. close callbacks：close 事件的回调，例如 `socket.on('close', ...)`
 
-
     每个阶段都存在一个 FIFO（First In First Out）的 callbacks 队列
 
     当 event loop 运行到某个阶段时，会执行 callbacks 队列，直到所有 callbacks 执行完毕或达到最大个数的限制，然后 event loop 开始下个阶段
