@@ -11,49 +11,46 @@ const logger = {
     }
 };
 
+process.currentTickId = 0;
+
+const onTick = () => {
+    process.currentTickId++;
+    setTimeout(()=>{
+        process.nextTick(onTick);
+    }, 0)
+};
+
+process.nextTick(onTick);
+
 // Max number of iterations to perform
-const ITERATIONS_MAX = 2;
+const ITERATIONS_MAX = 3;
 
 // Iteration counter
 let iteration = 0;
 
-process.nextTick(() => {
-    // Microtask callback runs AFTER mainline, even though the code is here
-    logger.info('process.nextTick', 'MAINLINE MICROTASK');
-});
-
-logger.info('START', 'MAINLINE');
+logger.info('START tick:' + process.currentTickId, 'MAINLINE');
 
 const timeout = setInterval(() => {
-    logger.info('START iteration ' + iteration + ': setInterval', 'TIMERS PHASE');
+    logger.info('START iteration ' + iteration + ': setInterval tick:' + process.currentTickId, 'TIMERS PHASE');
 
     if (iteration < ITERATIONS_MAX) {
         setTimeout((iteration) => {
-            logger.info('TIMER EXPIRED (from iteration ' + iteration + '): setInterval.setTimeout', 'TIMERS PHASE');
-            process.nextTick(() => {
-                logger.info('setInterval.setTimeout.process.nextTick', 'TIMERS PHASE MICROTASK');
-            });
+            logger.info('TIMER EXPIRED (from iteration ' + iteration + '): setInterval.setTimeout tick:' + process.currentTickId, 'TIMERS PHASE');
         }, 0, iteration);
         fs.readdir('../javascript', (err, files) => {
-            logger.info('fs.readdir() callback: Directory contains: ' + files.length + ' files', 'POLL PHASE');
-            process.nextTick(() => {
-                logger.info('setInterval.fs.readdir.process.nextTick', 'POLL PHASE MICROTASK');
-            });
+            logger.info('fs.readdir() callback: Directory contains: ' + files.length + ' files iteration:' + iteration + ' tick:' + process.currentTickId, 'POLL PHASE');
         });
         setImmediate(() => {
-            logger.info('setInterval.setImmediate', 'CHECK PHASE');
-            process.nextTick(() => {
-                logger.info('setInterval.setTimeout.process.nextTick', 'CHECK PHASE MICROTASK');
-            });
+            logger.info('setInterval.setImmediate iteration:' + iteration + ' tick:' + process.currentTickId, 'CHECK PHASE');
         });
     } else {
-        logger.info('Max interval count exceeded. Goodbye.', 'TIMERS PHASE');
+        logger.info('Max interval count exceeded. Goodbye. tick:' + process.currentTickId, 'TIMERS PHASE');
         // Kill the interval timer
         clearInterval(timeout);
     }
-    logger.info('END iteration ' + iteration + ': setInterval', 'TIMERS PHASE');
+    logger.info('END iteration ' + iteration + ': setInterval tick:' + process.currentTickId, 'TIMERS PHASE');
 
     iteration++;
 }, 0);
 
-logger.info('END', 'MAINLINE');
+logger.info('END tick:' + process.currentTickId, 'MAINLINE');
