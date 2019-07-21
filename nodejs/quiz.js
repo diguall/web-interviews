@@ -23,6 +23,12 @@ const fs = require('fs');
         process.nextTick(() => {
             console.log('H');
         });
+        Promise.resolve(1).then(()=>{
+            console.log("K");
+        });
+    });
+    Promise.resolve(1).then(()=>{
+        console.log("J");
     });
     console.log('I');
 })();
