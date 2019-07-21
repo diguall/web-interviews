@@ -34,6 +34,7 @@ v12 更新（性能提升明显）：V8 引擎更新，TLS 更新，http 解析�
 
     event loop 按照执行顺序分为六个阶段
 ![event loop](event_loop.png)
+![event loop js](event_loop_javascript.jpeg)
 
 1. timers：执行 `setTimeout()`和`setInterval()`的回调，timers 的执行时间会受到 poll 阶段的影响
 2. pending callbacks：上个 event loop 延迟到这个 loop 的 I/O 回调，一般是系统操作的回调，例如 监听 TCP ECONNREFUSED 错误的回调
@@ -48,7 +49,6 @@ v12 更新（性能提升明显）：V8 引擎更新，TLS 更新，http 解析�
 5. check：`setImmediate()`的回调
 6. close callbacks：close 事件的回调，例如 `socket.on('close', ...)`
 
-![event loop js](event_loop_javascript.jpeg)
     每个阶段都存在一个 FIFO（First In First Out）的 callbacks 队列
 
     当 event loop 运行到某个阶段时，会执行 callbacks 队列，直到所有 callbacks 执行完毕或达到最大个数的限制，然后 event loop 开始下个阶段
@@ -62,6 +62,7 @@ v12 更新（性能提升明显）：V8 引擎更新，TLS 更新，http 解析�
     process.nextTick 处于每个阶段的 callback 执行完成后，都会进行调用
 
     例题1：[event loop timers](quiz.js)
+    
     例题2：[event loop tick](quiz2.js)
 
 - [x] Profiling
