@@ -160,6 +160,8 @@ foo();
 
 ## Microtasks & Macrotasks
 
+![event_loop_full](event_loop_full.png)
+
 ```javascript
 console.log('script start');
 
