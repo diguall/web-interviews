@@ -35,11 +35,8 @@
 
 ## Coredump
     
-    ulimit -c unlimited
-    node --abort-on-uncaught-exception index.js
-
-    gcore
-
-    lldb nod -c core.<pid>
+1. ulimit -c unlimited
+2. node --abort-on-uncaught-exception crash.js
+3. llnode node -c core.<pid>
 
 ## Heapdump
