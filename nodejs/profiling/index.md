@@ -23,20 +23,19 @@
 * [WebStorm](https://www.jetbrains.com/help/webstorm/running-and-debugging-node-js.html)
 
 ## Profiling
-
-1. NODE_ENV=production node --prof main.js
-2. wrk -t8 -c300 -d30 http://127.0.0.1:19605/fib?index=36
-3. node --prof-process isolate-0xnnnnnnnnnnnn-v8.log > processed.txt
-
-打开 processed.txt 文件进行分析
-1. `[Summary]` 输出了 CPU 的占用情况
-2. 查看 `[Summary]` 中占比最大的部分，例如 `[JavaScript]`，定位到执行耗时很长的代码
-3. 再查看 `[Bottom up (heavy) profile]` 的输出，提供了具体的调用栈信息
+1. node --inspect main.js
+2. chrome://inspect > Profiler > Profiles > Start
+4. wrk -t8 -c300 -d30 http://127.0.0.1:19605/fib?index=36
+5. Stop
 
 ## Coredump
-    
-1. ulimit -c unlimited
-2. node --abort-on-uncaught-exception crash.js
-3. llnode node -c core.<pid>
+1. root@xxx:/nodejs/app# `ulimit -c unlimited`
+2. root@xxx:/nodejs/app# `echo "1" > /proc/sys/kernel/core_uses_pid`
+3. root@xxx:/nodejs/app# `echo "/tmp/core.%p" > /proc/sys/kernel/core_pattern`
+4. root@xxx:/nodejs/app# `node --abort-on-uncaught-exception crash.js`
+5. root@xxx:/nodejs/app# `llnode node -c /tmp/core.<pid>`
+6. (llnode) `v8 bt`
 
 ## Heapdump
+1. node --inspect main.js
+2. chrome://inspect > Memory > Profiles > Take snapshot

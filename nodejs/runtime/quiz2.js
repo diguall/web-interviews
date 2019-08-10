@@ -20,6 +20,15 @@ Promise.resolve(1).then(function () {
 messenger.emit('message', "hello!");
 fs.stat(__filename, function () {
     console.log(++pos + " stat");
+    setTimeout(function () {
+        console.log(++pos + " another stat quick timer");
+    });
+    setImmediate(function () {
+        console.log(++pos + " stat immediate");
+    });
+    process.nextTick(function () {
+        console.log(++pos + " another stat nextTick");
+    });
 });
 
 setTimeout(function () {
@@ -50,3 +59,7 @@ setImmediate(function () {
 });
 
 console.log(++pos + " last");
+
+/**
+ * pos => 17
+ */
