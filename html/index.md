@@ -38,3 +38,20 @@
     `<video> <audio> controls,autoplay`
     
     `localStorage.setItem,localStorage.getItem,localStorage.removeItem,localStorage.clear`
+
+- [x] 滚动性能
+
+* 精简样式
+* 减少DOM层级、个数
+* Debouncing
+* 滚动后，把不可见 <img> 的 src 属性替换为非常小的占位图片
+* 滚动后，不可见区域的 visibility 属性设置为 hidden
+* 滚动后，比较旧的不可见区域用相同高宽的 div 替换
+* 设置图片的宽高，避免客户端对图片缩放
+* 避免使用 box-shadow
+
+- [x] 渲染
+
+* Layout: 元素间的间隔，放置的位置
+* Painting: 绘制元素
+* Compositing: 浏览器按照正确的顺序展示、组合元素
