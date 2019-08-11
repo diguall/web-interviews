@@ -98,3 +98,68 @@
     匹配 n 次 {n}
 
     匹配至少 n 次 {n,}
+
+- [x] once
+```javascript
+function once(fn){
+    let count = 1;
+    let result;
+    return function(){
+        if(count === 0) {
+            return result;
+        }
+        count--;
+        result = fn.apply(this, arguments);
+        fn = undefined;
+        return result;
+    }
+}
+
+// testcase
+function log(){
+    console.log('run only once');
+    return Date.now();
+}
+
+const logOnce = once(log);
+let log1 = logOnce();
+let log2 = logOnce();
+console.log(`once:${log1 === log2}, timestamp:${log2}`);
+```
+
+-[x] bind
+```javascript
+(function bindPolyfill(){
+    if (Function.prototype.bind) {
+        return;
+    }
+    Function.prototype.bind = function () {
+        var self = this, selfArg = arguments[0];
+
+        if(typeof self !== 'function') {
+            throw new TypeError('Function.prototype.bind is not valid');
+        }
+
+        var args = Array.prototype.slice.call(arguments, 1);
+
+        return function(){
+            var funcArgs = args.concat(Array.prototype.slice.call(arguments))
+            return self.apply(selfArg, funcArgs);
+        };
+    }
+})();
+
+// testcase
+var point = {
+  x: 81,
+  getX: function() { return this.x; }
+};
+
+point.getX(); // 81
+
+var retrieveX = point.getX;
+retrieveX(); // undefined
+
+var boundGetX = retrieveX.bind(point);
+boundGetX(); // 81
+```

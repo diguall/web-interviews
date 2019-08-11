@@ -10,3 +10,9 @@ node_modules/
 
 # Optional npm cache directory
 .npm
+
+# next
+.next
+
+# build
+dist
