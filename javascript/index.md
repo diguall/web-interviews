@@ -7,3 +7,5 @@
 - [x] [原型链](prototype/index.md)
 
 - [x] [runtime](runtime/index.md)
+
+- [x] [垃圾回收](garbage-collection/index.md)
