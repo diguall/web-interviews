@@ -163,3 +163,96 @@ retrieveX(); // undefined
 var boundGetX = retrieveX.bind(point);
 boundGetX(); // 81
 ```
+
+- [x] currying
+```javascript
+function currying(fn, length) {
+    // number of parameter
+    length = length || fn.length
+
+    return function currier() {
+        if (arguments.length < length) {
+            return Function.prototype.bind.apply(currier, [this].concat(Array.prototype.slice.call(arguments)));
+        } else {
+            return fn.apply(this, arguments);
+        }
+    }
+}
+
+// testcase
+let testFn = currying(function (a, b, c) {
+    return a * b * c;
+});
+
+console.info(testFn(2, 3, 4));
+console.info(testFn(2)(3)(4));
+console.info(testFn(2)(3, 4));
+console.info(testFn(2, 3)(4));
+```
+
+- [x] throttle 一个函数被调用后，在给定的时间内再次被调用不会被执行，只有在给定的时间后再次被调用会被执行
+throttle(fn, 100)：每 100ms 只执行一次 fn
+用途：限制滚动时间触发的频次
+```javascript
+function throttle(fn, wait) {
+    let timeout = null, previous = 0;
+
+    return function(){
+        let context = this, args = arguments;
+
+        const remaining = wait - (Date.now() - previous);
+
+        if (remaining <= 0) {
+            clearTimeout(timeout);
+
+            timeout = null;
+            previous = Date.now();
+            fn.apply(context, args);
+
+            return;
+        }
+
+        if (timeout) {
+            return;
+        }
+
+        timeout = setTimeout(function(){
+            timeout = null;
+            previous = Date.now();
+            fn.apply(context, args);
+        }, remaining);
+        return;
+    };
+}
+
+// testcase
+window.onscroll = throttle(function(){
+    console.log(`[${Date.now()}]:execute every 1000ms`);
+}, 1000);
+```
+
+- [x] debounce 一个函数被调用后，在给定的时间内没有再次被调用，则在给定的时间后执行，否则重新计算时间
+debounce(fn, 100)：只有当 fn 被调用后，且经过 100ms 后 fn 没有被再次调用，则执行 fn
+用途：鼠标拖动窗口改变大小时
+```javascript
+function debounce(fn, wait) {
+    let timeout;
+    return function () {
+        let context = this, args = arguments;
+
+        clearTimeout(timeout);
+
+        timeout = setTimeout(function () {
+            timeout = null;
+            fn.apply(context, args);
+        }, wait);
+
+        return;
+    };
+}
+
+// testcase
+window.onresize = debounce(function(){
+    console.log(`[${Date.now()}]:execute when no resize event trigger after 1000ms`);
+}, 1000);
+```
