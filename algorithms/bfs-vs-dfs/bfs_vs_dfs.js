@@ -212,8 +212,8 @@ class BinaryTree {
                 if (topNode.right && topNode.right !== lastVisitedNode) {
                     current = topNode.right;
                 } else {
-                    result.push(topNode.value);
                     lastVisitedNode = stack.pop();
+                    result.push(lastVisitedNode.value);
                 }
             }
         }
