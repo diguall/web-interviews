@@ -28,25 +28,6 @@ class Tree {
         return result;
     }
 
-    _norecursiveDepthFirstSearch(root) {
-        if (!root || !root.children) {
-            return;
-        }
-
-        let result = [], stack = [root];
-
-        while (stack.length) {
-            let currentNode = stack.shift();
-            result.push(currentNode.value);
-
-            if (currentNode.children.length) {
-                stack = currentNode.children.concat(stack);
-            }
-        }
-
-        return result;
-    }
-
     _recursiveBreadthFirstSearch(root) {
         if (!root || !root.children) {
             return;
@@ -68,6 +49,25 @@ class Tree {
         }
 
         return recursiveNodes([root]);
+    }
+
+    _norecursiveDepthFirstSearch(root) {
+        if (!root || !root.children) {
+            return;
+        }
+
+        let result = [], stack = [root];
+
+        while (stack.length) {
+            let currentNode = stack.shift();
+            result.push(currentNode.value);
+
+            if (currentNode.children.length) {
+                stack = currentNode.children.concat(stack);
+            }
+        }
+
+        return result;
     }
 
     _norecursiveBreadthFirstSearch(root) {
