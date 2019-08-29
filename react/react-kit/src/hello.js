@@ -7,7 +7,8 @@ class Hello extends React.Component {
 
         this.state = {
             hname: "world",
-            count: 0
+            count: 6,
+            list: [1, 2, 3, 4, 5, 6]
         }
         this.handleClick = this.handleClick.bind(this);
         console.log('[Hello] constructor')
@@ -16,9 +17,12 @@ class Hello extends React.Component {
     handleClick() {
         console.log('[Hello] click')
         const count = this.state.count
+        const items = this.state.list.slice()
+        items.push(count)
         this.setState({
             hname: count + 1 + "",
-            count: count + 1
+            count: count + 1,
+            list: items
         })
     }
 
@@ -38,7 +42,16 @@ class Hello extends React.Component {
     render() {
         console.log('[Hello] render');
 
-        return (<div onClick={this.handleClick}>GOGOGO {this.state.hname} color:{this.props.color} theme:{this.context}</div>)
+        return (
+            <div onClick={this.handleClick}>
+                <span>GOGOGO {this.state.hname} color:{this.props.color} theme:{this.context}</span>
+                <ul>
+                    {this.state.list.map((item) => {
+                        return (<li key={item}>{item}</li>)
+                    })}
+                </ul>
+            </div>
+        )
     }
 
     getSnapshotBeforeUpdate(prevProps, prevState) {
