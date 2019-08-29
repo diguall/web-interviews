@@ -105,6 +105,24 @@ function responseFileUpload(req, res) {
     });
 }
 
+function testRaw(req, res) {
+  let body = [];
+  req.on('data', (chunk) => { 
+      // Uint8Array
+      body.push(chunk) 
+  });
+  req.on('end', () => {
+      let buf = Buffer.concat(body)
+      console.log(Object.prototype.toString.call(body));
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify({
+            code: 0,
+            msg: 'success'
+        }));
+  });
+}
+
 function responseRawUpload(req, res) {
     const tmp = fs.createWriteStream("tmp.png");
 
