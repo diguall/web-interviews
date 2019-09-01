@@ -254,3 +254,50 @@ window.onscroll = throttle(function(){
     console.log(`[${Date.now()}]:execute every 1000ms`);
 }, 1000);
 ```
+
+- [x] querystring
+```javascript
+// url类似于 'http://www.example.com?a=1&b=b1';
+
+function parseQuerystring(query) {
+    if(typeof query !== 'string'){
+        return; 
+    }
+
+    if(query.charAt(0) === '?') {
+        query = query.slice(1);
+    }
+
+    let pairs = query.split('&');
+    let dict = {};
+
+    for(let i = 0, length = pairs.length; i < length; i++){
+        let value = pairs[i];
+        let index = value.indexOf('=');
+
+        dict[decode(value.slice(0, index))] = index > -1 ? decode(value.slice(index + 1)) : ''; 
+    }
+
+    return dict;
+}
+
+function decode(str) {
+    return decodeURIComponent(str.replace(/\+/g, ' '));
+}
+
+function parseSearchParams(url) {
+    let queryIndex = url.indexOf('?');
+
+    return queryIndex === -1 ? '' : url.slice(queryIndex + 1);
+}
+
+function parse(url) {
+    return parseQuerystring(parseSearchParams(url));
+}
+
+console.info(parseQuerystring('?foo=1&bar=2'));
+console.info(parseQuerystring('foo=1&bar=2&baz=3+4'));
+
+console.info(parse('http://example.com?foo=1&bar=2'));
+console.info(parse('https://example.com?foo=1&bar=2&baz=3+4'));
+```
