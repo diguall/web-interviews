@@ -1,0 +1,23 @@
+h2 {
+    background: gainsboro;
+}
+
+.split {
+    float:left;
+    width:50%;
+}
+
+iframe {
+    width:100%;
+    height:100%;
+}
+
+.row {
+    overflow:hidden;
+}
+
+.row img {
+    max-width:5%;
+    height:auto;
+    float:left;
+}
