@@ -1,3 +1,4 @@
+// Doubly Linked List
 function LinkNode(value) {
     this.value = value;
     this.prev = null;
@@ -249,3 +250,78 @@ LinkList.prototype.print = function () {
     console.log('3-2-1');
     linkList.print();
 })();
+
+// Singly Linked Node
+
+function SinglyLinkNode(value) {
+    this.value = value;
+    this.next = null;
+}
+function SinglyLinkList() {
+    this.head = new SinglyLinkNode();
+}
+
+SinglyLinkList.prototype.addNode = function (node) {
+    let current = this.head;
+
+    while (current.next !== null) {
+        current = current.next;
+    }
+
+    current.next = node;
+    return node;
+};
+
+SinglyLinkList.prototype.show = function () {
+    let current = this.head.next;
+
+    while (current) {
+        console.log(current.value);
+        current = current.next;
+    }
+};
+
+// head->1->2->3
+// c=1 next=2 1.next=null c=2 prev=1
+// c=2 next=3 2.next=1 c=3 prev=2
+// c=3 next=null 3.next=2 c=null prev=3
+// head.next=prev
+SinglyLinkList.prototype.reverse1 = function () {
+    let current = this.head.next;
+    let prev = null;
+    while (current !== null) {
+        let next = current.next;
+        current.next = prev;
+
+        prev = current;
+        current = next;
+    }
+
+    this.head.next = prev
+};
+
+SinglyLinkList.prototype.reverse2 = function () {
+    let current = this.head.next;
+    while (current.next !== null) {
+        let next = current.next;
+
+        current.next = next.next;
+
+        next.next = this.head.next;
+        this.head.next = next;
+    }
+};
+
+(function t2() {
+    let sll = new SinglyLinkList();
+    sll.addNode(new SinglyLinkNode(1));
+    sll.addNode(new SinglyLinkNode(2));
+    // sll.addNode(new SinglyLinkNode(3));
+
+    console.log('origin:')
+    sll.show();
+
+    console.log('reversed:')
+    sll.reverse2();
+    sll.show();
+})()
