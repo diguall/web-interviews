@@ -5,3 +5,7 @@
 - [x] [深度优先(Breadth first search) vs 广度优先(Depth first search)](bfs-vs-dfs/index.md)
 
 - [x] [LRU(Least Recently Used)](lru/index.js)
+
+- [x] [链表](linkedlist/index.md)
+
+- [x] [排序](sort/index.md)
