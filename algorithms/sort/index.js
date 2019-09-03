@@ -179,10 +179,54 @@ Sort.prototype.mergeSort = function (list) {
     return this._merge(this.mergeSort(left), this.mergeSort(right));
 };
 
-// 5,2,3,6,4,1
-Sort.prototype.quickSort = function (list) {
-    let length = list.length;
-    let left = Math.floor(length / 2);
+Sort.prototype._swap = function (list, i, j) {
+    if (i === j) {
+        return;
+    }
+
+    let temp = list[i];
+    list[i] = list[j];
+    list[j] = temp;
+}
+
+
+// 选择任意一个数据作为 pivot，遍历序列将小于 pivot 的放在左边，大于 pivot 的放在右边，按照 pivot 的序号切分为两个区间，再递归至区间缩小为 1
+// 6, 11, 3, 9, 8
+// pivot=8 i=0,index=0  6,11,3,9,8
+// pivot=8 i=2,index=1  6,3,11,9,8
+// pivot=8 i=4,index=2  6,3,8,9,11
+// pivot index 2
+Sort.prototype._partition = function (list, left, right) {
+    console.log(`[quick sort] partition left:${left}, right:${right}, origin:`, list);
+    let pivot = list[right];
+    let index = left;
+    for (let i = left; i < right; i++) {
+        if (list[i] < pivot) {
+            this._swap(list, i, index);
+            console.log(`[quick sort] swap i:${i},index:${index},list:`, list);
+            index++;
+        }
+    }
+    this._swap(list, index, right);
+    console.log(`[quick sort] partition index:${index}, result:`, list);
+
+    return index;
+};
+
+Sort.prototype.quickSort = function (list, left, right) {
+    left = Number.isInteger(left) ? left : 0;
+    right = Number.isInteger(right) ? right : list.length - 1;
+    console.log(`[quick sort] left:${left},right:${right}`);
+
+    if (left >= right) {
+        return list;
+    }
+
+    let index = this._partition(list, left, right);
+    this.quickSort(list, left, index - 1);
+    this.quickSort(list, index + 1, right);
+
+    return list;
 };
 
 (function test() {
@@ -205,5 +249,6 @@ Sort.prototype.quickSort = function (list) {
     // sort.mergeSort(list.slice());
 
     // 时间复杂度：O(nlogn) 不稳定
-    sort.quickSort(list.slice());
+    // sort.quickSort(list.slice());
+    sort.quickSort([6, 11, 3, 9, 8]);
 })();
