@@ -9,6 +9,11 @@ HTTP1.1 - Cache-Control
 2. 检查 Expires 请求头，减去 Date 请求头的值为缓存周期，判断缓存是否有效
 3. max-age 和 Expires 都不存在时，检查 Last-Modified 请求头，Date请求头的值减去 Last-Modified 请求头的值，再除以10为缓存周期
 
+`expirationTime = responseTime + freshnessLifetime - currentAge`
+responseTime：浏览器接收响应时间
+freshnessLifetime：按照优先级，从 max-age =》(Date - Last-Modified)/10
+currentAge：Age
+
 缓存流程，Cache-Control 非 no-cache ：
 1. 第一次请求服务器，响应头返回 Cache-Control、ETag:xxx
 2. 浏览器判断过期时间
