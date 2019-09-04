@@ -31,9 +31,7 @@ Sort.prototype.bubbleSort = function (list) {
     for (let i = 0; i < length - 1; i++) {
         for (let j = 0; j < length - 1 - i; j++) {
             if (list[j] > list[j + 1]) {
-                let tmp = list[j + 1];
-                list[j + 1] = list[j];
-                list[j] = tmp;
+                this._swap(list, j, j + 1);
             }
             console.log(`[bubble sort]:i=${i},j=${j}`, list);
         }
@@ -64,9 +62,7 @@ Sort.prototype.selectSort = function (list) {
             }
         }
         if (minIndex > i) {
-            let temp = list[minIndex];
-            list[minIndex] = list[i];
-            list[i] = temp;
+            this._swap(list, minIndex, i);
         }
         console.log(`[select sort]:i=${i},minIndex:${minIndex}`, list);
     }
@@ -216,11 +212,13 @@ Sort.prototype._partition = function (list, left, right) {
 Sort.prototype.quickSort = function (list, left, right) {
     left = Number.isInteger(left) ? left : 0;
     right = Number.isInteger(right) ? right : list.length - 1;
-    console.log(`[quick sort] left:${left},right:${right}`);
 
     if (left >= right) {
+        console.log(`[quick sort] left:${left},right:${right}, result:`, list);
         return list;
     }
+
+    console.log(`[quick sort] left:${left},right:${right},origin:`, list);
 
     let index = this._partition(list, left, right);
     this.quickSort(list, left, index - 1);
@@ -229,26 +227,32 @@ Sort.prototype.quickSort = function (list, left, right) {
     return list;
 };
 
+Sort.prototype.heapSort = function (list) {
+    return list;
+};
+
 (function test() {
-    let list = [5, 2, 3, 6, 4, 1];
+    let list = [6, 11, 3, 9, 8];
     let sort = new Sort();
 
-    // 时间复杂度：O(n^2) 空间复杂度：O(1) 稳定
+    // // 时间复杂度：O(n^2) 空间复杂度：O(1) 稳定
     // sort.bubbleSort(list.slice());
 
-    // 时间复杂度：O(n^2) 空间复杂度：O(1) 非稳定
+    // // 时间复杂度：O(n^2) 空间复杂度：O(1) 非稳定
     // sort.selectSort(list.slice());
 
-    // 时间复杂度：O(n^2) 空间复杂度：O(1) 稳定
+    // // 时间复杂度：O(n^2) 空间复杂度：O(1) 稳定
     // sort.insertSort(list.slice());
 
-    // 时间复杂度：O(n^1.3) ~ O(n^2) 空间复杂度：O(1) 非稳定
+    // // 时间复杂度：O(n^1.3) ~ O(n^2) 空间复杂度：O(1) 非稳定
     // sort.shellSort(list.slice());
 
-    // 时间复杂度：O(nlogn) 稳定
+    // // 时间复杂度：O(nlogn) 稳定
     // sort.mergeSort(list.slice());
 
     // 时间复杂度：O(nlogn) 不稳定
     // sort.quickSort(list.slice());
-    sort.quickSort([6, 11, 3, 9, 8]);
+
+    // 时间复杂度：O(nlogn) 不稳定
+    sort.heapSort(list.slice());
 })();
