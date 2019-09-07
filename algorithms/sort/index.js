@@ -229,6 +229,65 @@ Sort.prototype.quickSort = function (list, left, right) {
     return list;
 };
 
+// 堆是一个完全二叉树，除了最后一层外其它层的节点都是满的，最后一层都靠左排列，堆中每个节点的值都必须大于等于（或小于等于）子树每个节点的值
+// 大顶堆：[7, 5, 6, 4, 2, 1]
+//         0  1  2  3  4  5
+/**
+ *         7
+ *       /    \
+ *      5      6
+ *     / \    /
+ *    4   2  1
+ */
+// 下标 i 的左子节点为 i*2 + 1，右子节点为 i*2+2，父节点为 i/2
+
+// [1, 2, 4, 5, 6, 7]
+Sort.prototype.heapSort = function (list) {
+    const self = this;
+    let length = list.length;
+
+    function buildHeap(arr) {
+        length = arr.length;
+        for (let i = Math.floor(length / 2); i >= 0; i--) {
+            heapify(arr, i);
+        }
+    }
+
+    function heapify(arr, i) {
+        let maxIndex = i;
+        let left = i * 2 + 1, right = i * 2 + 2;
+        if (left < length && arr[maxIndex] < arr[left]) {
+            maxIndex = left;
+        }
+
+        if (right < length && arr[maxIndex] < arr[right]) {
+            maxIndex = right;
+        }
+
+        if (maxIndex === i) {
+            return;
+        }
+
+        self._swap(arr, maxIndex, i);
+        heapify(arr, maxIndex);
+    }
+
+    console.log("[heap sort] origin:", list);
+
+    buildHeap(list);
+    console.log("[heap sort] build:", list);
+
+    while (length > 0) {
+        self._swap(list, 0, length - 1);
+        --length;
+        heapify(list, 0);
+    }
+
+    console.log("[heap sort] result:", list);
+
+    return list;
+};
+
 (function test() {
     let list = [5, 2, 3, 6, 4, 1];
     let sort = new Sort();
@@ -250,5 +309,8 @@ Sort.prototype.quickSort = function (list, left, right) {
 
     // 时间复杂度：O(nlogn) 不稳定
     // sort.quickSort(list.slice());
-    sort.quickSort([6, 11, 3, 9, 8]);
+    // sort.quickSort([6, 11, 3, 9, 8]);
+
+    // 时间复杂度：O(nlogn) 不稳定
+    sort.heapSort(list.slice());
 })();
