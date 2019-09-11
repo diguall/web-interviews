@@ -93,17 +93,19 @@ function responseHomePage(res) {
     res.setHeader('Content-Type', 'text/html');
 
     let imageEl = '';
-    for (let i = 0; i < 379; i++) {
-        if (i === 0) {
-            imageEl += `<div class="row"><img width="32" height="32" src="/assets/tile-${i}.png"/>`
-        } else if (i === 379) {
-            imageEl += '</div>'
-        } else if (i % 20 === 19) {
-            imageEl += '</div><div class="row">'
-        } else {
-            imageEl += `<img width="32" height="32" src="/assets/tile-${i}.png"/>`
-        }
-    }
+    // for (let i = 0; i < 379; i++) {
+    //     if (i === 0) {
+    //         imageEl += `<div class="row"><img width="32" height="32" src="/assets/tile-${i}.png"/>`
+    //     } else if (i === 379) {
+    //         imageEl += '</div>'
+    //     } else if (i % 20 === 19) {
+    //         imageEl += '</div><div class="row">'
+    //     } else {
+    //         imageEl += `<img width="32" height="32" src="/assets/tile-${i}.png"/>`
+    //     }
+    // }
+
+    imageEl = '<img src="/assets/a1.jpg" style="max-width:100%;"><br/><img src="/assets/a2.jpg" style="max-width:100%;">'
 
     res.end(`<!DOCTYPE html>
     <html>

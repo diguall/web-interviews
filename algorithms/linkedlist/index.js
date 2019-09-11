@@ -300,6 +300,9 @@ SinglyLinkList.prototype.reverse1 = function () {
     this.head.next = prev
 };
 
+// head->1->2->3
+// current = 1, next = 2, 1->3, 2->1, head > 2, head>2>1>3
+// current = 1, next = 3, 1->null, 3->2, head>3, head>3>2>1>null
 SinglyLinkList.prototype.reverse2 = function () {
     let current = this.head.next;
     while (current.next !== null) {

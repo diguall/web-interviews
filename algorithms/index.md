@@ -9,3 +9,5 @@
 - [x] [链表](linkedlist/index.md)
 
 - [x] [排序](sort/index.md)
+
+- [x] [霍夫曼编码](huffman/index.js)
